@@ -22,7 +22,20 @@ public class ExecutorServiceImpl implements ExecutorService {
 
         // TODO 10: schedule the task execution
         // Hint 1: Create a thread to execute the task
-        // Hint 2: As soon as the task finishes, you can notify the client using callback
+
+        new Thread() {
+            @Override
+            public void run() {
+                R result = task.execute(param);
+                try {
+                    // Hint 2: As soon as the task finishes, you can notify the client using callback
+                    callbackObject.callback(result);
+                } catch (RemoteException e) {
+                    throw new RuntimeException("A remote exception has ocurred",e);
+                }
+            }
+        }.start();
+
 
     }
 
